@@ -1,24 +1,32 @@
-// Array for words to guess
-var femaleArtists = [
-  "Blondie",
-  "Tina Turner",
-  "Stevie Nicks",
-  "Sade",
-  "Cyndi Lauper",
-  "Madonna",
-  "Pat Benatar",
-  "Janet Jackson",
-  "Tiffany",
-  "Paula Abdul"
-];
+// // Array for words to guess
+// var femaleArtists = [
+//   "Blondie",
+//   "Tina Turner",
+//   "Stevie Nicks",
+//   "Sade",
+//   "Cyndi Lauper",
+//   "Madonna",
+//   "Pat Benatar",
+//   "Janet Jackson",
+//   "Tiffany",
+//   "Paula Abdul"
+// ];
 
-// Array for blanks
-var blankArray = [];
-for (var i = 0; i < femaleArtists.length; i++) {
-  blankArray[i] = "_";
-}
+// // Pick a random word
+// var word = words[Math.floor(Math.random() * femaleArtists.length)];
 
-var remainingLetters = femaleArtists.length;
-while (remainingLetters > 0) {}
+// // Array for blanks
+// var blankArray = [];
+// for (var i = 0; i < femaleArtists.length; i++) {
+// //   if(femaleArtists[i])
+//   blankArray[i] = "_";
+// }
 
-document.getElementById("demo").innerHTML = "Word Guess Game";
+// var remainingLetters = femaleArtists.length;
+// //game loop
+// while (remainingLetters > 0) {
+//  //player progress
+//  document.getElementById("")
+// }
+
+// document.getElementById("score").innerHTML = "Word Guess Game";
