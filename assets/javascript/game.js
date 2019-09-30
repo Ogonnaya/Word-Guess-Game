@@ -42,6 +42,19 @@ guessesLeft = 9;
 //The player should see how many guesses are remaining
 document.getElementById("guesses-left").innerHTML = guessesLeft;
 
+//The player should see how many guesses are remaining
+document.getElementById("win-number").innerHTML = wins;
+
+document.getElementById("wrong-guesses").innerHTML = wrongLetter;
+
+function winLose() {
+  if (wins === randomWord.length) {
+    alert("Winner");
+  } else if (userGuesses === 0) {
+    alert("Loser)");
+  }
+}
+
 // When the player presses a key:
 document.onkeyup = function(event) {
   userGuesses = event.key;
@@ -49,11 +62,20 @@ document.onkeyup = function(event) {
 
   if (randomWord.indexOf(userGuesses) > -1) {
     console.log("yes");
+    for (var i = 0; i < randomWord.length; i++) {
+      if (randomWord[i] === userGuesses) {
+        answerBlanks[i] = userGuesses;
+      }
+      console.log(answerBlanks);
+      wins++;
+      winLose();
+    }
   } else {
     wrongLetter.push(userGuesses);
     console.log(wrongLetter);
     guessesLeft--;
     console.log(guessesLeft);
+    winLose();
   }
 };
 
