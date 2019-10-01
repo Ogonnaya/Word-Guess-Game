@@ -10,9 +10,9 @@ var femaleArtists = [
   "pat benatar",
   "janet jackson",
   "tiffany",
-  "paula abdul"
+  "paula-abdul"
 ];
-console.log(femaleArtists);
+// console.log(femaleArtists);
 
 var wins = 0; // Number of wins start at 0 at the beginning of the game
 // var loss = 0; // Number of losses start at 0 at the beginning of the game
@@ -32,8 +32,8 @@ function startGame() {
   for (var i = 0; i < randomWord.length; i++) {
     // console.log(i);
     answerBlanks[i] = "_";
-    console.log(answerBlanks);
   }
+  console.log(answerBlanks);
 
   guessesLeft = femaleArtists.length;
 
@@ -63,14 +63,19 @@ function startGame() {
       for (var j = 0; j < randomWord.length; j++) {
         if (randomWord[j] === userGuesses) {
           answerBlanks[j] = userGuesses;
+
+          //how do I create a space between words?
+        } else if (randomWord[j] === " ") {
+          answerBlanks[j] = " ";
         }
-        console.log(answerBlanks);
         document.getElementById("word-guess").innerHTML = answerBlanks.join(
           " "
         );
-        // winCounter++;
+
+        winCounter++;
         // winLose();
       }
+      console.log(answerBlanks);
     } else {
       wrongLetter.push(userGuesses);
       console.log(wrongLetter);
@@ -84,41 +89,24 @@ function startGame() {
       document.getElementById("guesses-left").innerHTML = guessesLeft;
       // winLose();
     }
+    //If player guesses the word increase wins by 1, show you win alert, give new word to guess
+    // if (winCounter === randomWord.length) {
+    //   winCounter++;
+    //   alert("You win! Here's another word to guess!");
+    //   document.getElementById("win-number").innerHTML = winCounter;
+
+    //   //if player runs of of guesses show you lose alert, give new word to guess, reset guesses and incorrect letters
+    if (guessesLeft === 0) {
+
+      // *********************** How do I get the alert to show after 0? *******************************
+      alert(
+        "The lady of the 80s is " + randomWord + "." + " Try another word!"
+      );
+
+      // *********************** How do I reset incorrect letters? *******************************
+      startGame();
+    }
   };
 }
 
 startGame();
-
-//  // If the player guess all the letters correctly:
-//  if (wins === randomWord.length) {
-//   alert("Winner");
-// } else if (userGuesses === 0) {
-//   alert("Loser)");
-// }
-
-// - If the letter guesseed is correct
-// - Replace corresponding dash with letter
-//  Else
-// - Show letter in incorrect guess area
-// - Reduce the number of guess remaining by 1
-// - Repeat If/Else until the player guesses the word or runs out of guesses
-
-// If the player guess all the letters correctly:
-// - Increase the number of wins by 1
-// - Show you win messsage
-// - Show play again button
-// - If player clicks on button
-// - show a random word with dashes on the sceenr for the playert to start guessing
-// Else do nothing
-// Else
-// - Show you lose message
-// - Show play again button
-
-// function winLose() {
-//   if (winCounter === randomWord.length) {
-//     alert("Winner");
-//   }
-//   //   } else if (userGuesses === 0) {
-//   //     alert("Loser)");
-//   //   }
-// }
