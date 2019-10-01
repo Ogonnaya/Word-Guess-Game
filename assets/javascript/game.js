@@ -64,7 +64,7 @@ function startGame() {
         if (randomWord[j] === userGuesses) {
           answerBlanks[j] = userGuesses;
 
-          //how do I create a space between words?
+          // ******************************** how do I create a space between words? **********************************
         } else if (randomWord[j] === " ") {
           answerBlanks[j] = " ";
         }
@@ -73,7 +73,6 @@ function startGame() {
         );
 
         winCounter++;
-        // winLose();
       }
       console.log(answerBlanks);
     } else {
@@ -89,6 +88,7 @@ function startGame() {
       document.getElementById("guesses-left").innerHTML = guessesLeft;
       // winLose();
     }
+    // *********************** My wins are counted after the player guesses the first letter, not the whole word.  How do I fix this? *******************************
     //If player guesses the word increase wins by 1, show you win alert, give new word to guess
     // if (winCounter === randomWord.length) {
     //   winCounter++;
@@ -97,7 +97,6 @@ function startGame() {
 
     //   //if player runs of of guesses show you lose alert, give new word to guess, reset guesses and incorrect letters
     if (guessesLeft === 0) {
-
       // *********************** How do I get the alert to show after 0? *******************************
       alert(
         "The lady of the 80s is " + randomWord + "." + " Try another word!"
