@@ -15,69 +15,88 @@ var femaleArtists = [
 console.log(femaleArtists);
 
 var wins = 0; // Number of wins start at 0 at the beginning of the game
-var loss = 0; // Number of losses start at 0 at the beginning of the game
-var wrongGuessses = []; // Incorrectly guessed letters
-var guessesLeft = 8; // Number of guesses remaining
+// var loss = 0; // Number of losses start at 0 at the beginning of the game
+var wrongLetter = []; // Incorrectly guessed letters
+var guessesLeft = 0; // Number of guesses remaining
 var answerBlanks = []; // Dashes shown for each letter to be guessed
 var userGuesses = [];
+var randomWord = [];
+var winCounter = 0;
 
-// A random word is selected from the array of words
-var randomWord =
-  femaleArtists[Math.floor(Math.random() * femaleArtists.length)];
-console.log("Random word = " + randomWord);
+function startGame() {
+  // A random word is selected from the array of words
+  randomWord = femaleArtists[Math.floor(Math.random() * femaleArtists.length)];
+  console.log("Random word = " + randomWord);
 
-// The player should see dashes for each letter to be guesses
-for (var i = 0; i < randomWord.length; i++) {
-  // console.log(i);
-  answerBlanks[i] = "_";
-  console.log(answerBlanks);
-}
-
-document.getElementById("word-guess").innerHTML = answerBlanks.join(" ");
-
-//Reset
-wrongLetter = [];
-guessesLeft = 9;
-
-//The player should see how many guesses are remaining
-document.getElementById("guesses-left").innerHTML = guessesLeft;
-
-//The player should see how many guesses are remaining
-document.getElementById("win-number").innerHTML = wins;
-
-document.getElementById("wrong-guesses").innerHTML = wrongLetter;
-
-function winLose() {
-  if (wins === randomWord.length) {
-    alert("Winner");
-  } else if (userGuesses === 0) {
-    alert("Loser)");
+  // The player should see dashes for each letter to be guesses
+  for (var i = 0; i < randomWord.length; i++) {
+    // console.log(i);
+    answerBlanks[i] = "_";
+    console.log(answerBlanks);
   }
-}
 
-// When the player presses a key:
-document.onkeyup = function(event) {
-  userGuesses = event.key;
-  console.log(userGuesses);
+  guessesLeft = femaleArtists.length;
 
-  if (randomWord.indexOf(userGuesses) > -1) {
-    console.log("yes");
-    for (var i = 0; i < randomWord.length; i++) {
-      if (randomWord[i] === userGuesses) {
-        answerBlanks[i] = userGuesses;
+  //  ************ GAME LOOP *********************
+
+  document.getElementById("word-guess").innerHTML = answerBlanks.join(" ");
+
+  //Reset
+  wrongLetter = [];
+  guessesLeft = 8;
+
+  //The player should see how many guesses are remaining
+  document.getElementById("win-number").innerHTML = wins;
+
+  // document.getElementById("wrong-guesses").textContent = userGuesses;
+
+  //The player should see total number of guesses are remaining
+  document.getElementById("guesses-left").innerHTML = guessesLeft;
+
+  // When the player presses a key:
+  document.onkeyup = function(event) {
+    userGuesses = event.key;
+    console.log(userGuesses);
+
+    if (randomWord.indexOf(userGuesses) > -1) {
+      console.log("yes");
+      for (var j = 0; j < randomWord.length; j++) {
+        if (randomWord[j] === userGuesses) {
+          answerBlanks[j] = userGuesses;
+        }
+        console.log(answerBlanks);
+
+        // winCounter++;
+        // winLose();
       }
-      console.log(answerBlanks);
-      wins++;
-      winLose();
+    } else {
+      wrongLetter.push(userGuesses);
+      console.log(wrongLetter);
+      guessesLeft--;
+      console.log(guessesLeft);
+
+      //The letters guessed by the player will be shown in the incorrect letter area
+      document.getElementById("wrong-guesses").textContent = wrongLetter;
+
+      //The player should see total number of guesses reduced by 1
+      document.getElementById("guesses-left").innerHTML = guessesLeft;
+
+      if (guessesLeft === 0) {
+        alert("Loser");
+      }
+      // winLose();
     }
-  } else {
-    wrongLetter.push(userGuesses);
-    console.log(wrongLetter);
-    guessesLeft--;
-    console.log(guessesLeft);
-    winLose();
-  }
-};
+  };
+
+  // // If the player guess all the letters correctly:
+  // if (wins === randomWord.length) {
+  //   alert("Winner");
+  // } else if (userGuesses === 0) {
+  //   alert("Loser)");
+  // }
+}
+
+startGame();
 
 // - If the letter guesseed is correct
 // - Replace corresponding dash with letter
@@ -96,3 +115,12 @@ document.onkeyup = function(event) {
 // Else
 // - Show you lose message
 // - Show play again button
+
+// function winLose() {
+//   if (winCounter === randomWord.length) {
+//     alert("Winner");
+//   }
+//   //   } else if (userGuesses === 0) {
+//   //     alert("Loser)");
+//   //   }
+// }
