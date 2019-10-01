@@ -65,7 +65,9 @@ function startGame() {
           answerBlanks[j] = userGuesses;
         }
         console.log(answerBlanks);
-
+        document.getElementById("word-guess").innerHTML = answerBlanks.join(
+          " "
+        );
         // winCounter++;
         // winLose();
       }
@@ -80,23 +82,19 @@ function startGame() {
 
       //The player should see total number of guesses reduced by 1
       document.getElementById("guesses-left").innerHTML = guessesLeft;
-
-      if (guessesLeft === 0) {
-        alert("Loser");
-      }
       // winLose();
     }
   };
-
-  // // If the player guess all the letters correctly:
-  // if (wins === randomWord.length) {
-  //   alert("Winner");
-  // } else if (userGuesses === 0) {
-  //   alert("Loser)");
-  // }
 }
 
 startGame();
+
+//  // If the player guess all the letters correctly:
+//  if (wins === randomWord.length) {
+//   alert("Winner");
+// } else if (userGuesses === 0) {
+//   alert("Loser)");
+// }
 
 // - If the letter guesseed is correct
 // - Replace corresponding dash with letter
