@@ -1,111 +1,137 @@
-// Variables
-
+// words list
 var femaleArtists = [
   "blondie",
-  "tina turner",
-  "stevie nicks",
+  // "tina turner",
+  // "stevie nicks",
   "sade",
-  "cyndi lauper",
+  // "cyndi lauper",
   "madonna",
-  "pat benatar",
-  "janet jackson",
+  // "pat benatar",
+  // "janet jackson",
   "tiffany",
-  "paula-abdul"
+  // "paula abdul"
+  "bananarama",
+  "bangles",
+  "eurythmics"
 ];
-// console.log(femaleArtists);
 
 var wins = 0; // Number of wins start at 0 at the beginning of the game
-// var loss = 0; // Number of losses start at 0 at the beginning of the game
-var wrongLetter = []; // Incorrectly guessed letters
+var wrongGuesses = []; // Incorrectly guessed letters
 var guessesLeft = 0; // Number of guesses remaining
-var answerBlanks = []; // Dashes shown for each letter to be guessed
-var userGuesses = [];
-var randomWord = [];
-var winCounter = 0;
+var numGuesses = 8; // Total number of guesses
+var answerBlanks = []; // Underscores shown for each letter to be guessed
+var userGuesses = []; // Letters guessed by player
+var randomWord; // Word that is currently being guessed
+var gameFinished = false; // if true then restart game
 
+// Start Game
 function startGame() {
   // A random word is selected from the array of words
   randomWord = femaleArtists[Math.floor(Math.random() * femaleArtists.length)];
   console.log("Random word = " + randomWord);
 
-  // The player should see dashes for each letter to be guesses
+  answerBlanks = [];
+
+  //  ************ Game Loop *********************
+
+  // The letters of the word should be replaced by underscores before the player guesses
   for (var i = 0; i < randomWord.length; i++) {
-    // console.log(i);
     answerBlanks[i] = "_";
+    // console.log(i);
+
+    // *** How do I create a space between words to show 2 words? ***
   }
-  console.log(answerBlanks);
 
-  guessesLeft = femaleArtists.length;
+  // Reset
+  guessesLeft = numGuesses;
+  userGuesses = [];
+  wrongGuesses = [];
 
-  //  ************ GAME LOOP *********************
+  //reset the selected elements on the screen
+  resetScreen();
+}
 
-  document.getElementById("word-guess").innerHTML = answerBlanks.join(" ");
-
-  //Reset
-  wrongLetter = [];
-  guessesLeft = 8;
-
+function resetScreen() {
   //The player should see how many guesses are remaining
   document.getElementById("win-number").innerHTML = wins;
 
-  // document.getElementById("wrong-guesses").textContent = userGuesses;
-
-  //The player should see total number of guesses are remaining
+  //The player should see total number of guesses reduced by 1
   document.getElementById("guesses-left").innerHTML = guessesLeft;
 
-  // When the player presses a key:
-  document.onkeyup = function(event) {
-    userGuesses = event.key;
-    console.log(userGuesses);
+  //The player should see underscores for every letter of the word to be guessed
+  document.getElementById("word-guess").innerHTML = answerBlanks.join(" ");
 
-    if (randomWord.indexOf(userGuesses) > -1) {
-      console.log("yes");
-      for (var j = 0; j < randomWord.length; j++) {
-        if (randomWord[j] === userGuesses) {
-          answerBlanks[j] = userGuesses;
+  //The letters guessed by the player will be shown in the incorrect letter area
+  document.getElementById("wrong-guesses").innerHTML = wrongGuesses;
 
-          // ******************************** how do I create a space between words? **********************************
-        } else if (randomWord[j] === " ") {
-          answerBlanks[j] = " ";
-        }
-        document.getElementById("word-guess").innerHTML = answerBlanks.join(
-          " "
-        );
+  document.getElementById("user-message").innerHTML =
+    "Press any letter, start guessing!";
+}
 
-        winCounter++;
-      }
-      console.log(answerBlanks);
-    } else {
-      wrongLetter.push(userGuesses);
-      console.log(wrongLetter);
+function letterGuessed(letter) {
+  //if letter is not in userGuesses array then push the letter to the array
+  if (userGuesses.indexOf(letter) === -1) {
+    userGuesses.push(letter);
+
+    //if the letter is not in the current word then  subtract 1 from the guessesLeft
+    if (randomWord.indexOf(letter) === -1) {
       guessesLeft--;
-      console.log(guessesLeft);
-
-      //The letters guessed by the player will be shown in the incorrect letter area
-      document.getElementById("wrong-guesses").textContent = wrongLetter;
-
-      //The player should see total number of guesses reduced by 1
-      document.getElementById("guesses-left").innerHTML = guessesLeft;
-      // winLose();
+      wrongGuesses.push(letter);
+      console.log(wrongGuesses);
+    } else {
+      //when the player guessed the correct letter, replace corresponding blank with letter
+      for (var i = 0; i < randomWord.length; i++) {
+        if (letter === randomWord[i]) {
+          answerBlanks[i] = letter;
+        }
+      }
     }
-    // *********************** My wins are counted after the player guesses the first letter, not the whole word.  How do I fix this? *******************************
-    //If player guesses the word increase wins by 1, show you win alert, give new word to guess
-    // if (winCounter === randomWord.length) {
-    //   winCounter++;
-    //   alert("You win! Here's another word to guess!");
-    //   document.getElementById("win-number").innerHTML = winCounter;
+  }
+}
+// ***************** End Game **********************
 
-    //   //if player runs of of guesses show you lose alert, give new word to guess, reset guesses and incorrect letters
-    if (guessesLeft === 0) {
-      // *********************** How do I get the alert to show after 0? *******************************
-      alert(
-        "The lady of the 80s is " + randomWord + "." + " Try another word!"
-      );
-
-      // *********************** How do I reset incorrect letters? *******************************
-      startGame();
+// When the player presses a key
+document.onkeyup = function(event) {
+  //if gameFinished is true then restart the game to the initial startGame
+  //and switch gameFinished back to false
+  if (gameFinished) {
+    startGame();
+    gameFinished = false;
+  } else {
+    //check to see if only letters A-Z are pressed
+    //functions will be executed when the user presses only A-Z key
+    if (event.keyCode >= 65 && event.keyCode <= 90) {
+      letterGuessed(event.key);
+      resetScreen();
+      playerWins();
+      playerLoses();
     }
-  };
+  }
+};
+
+// Player wins
+function playerWins() {
+  // if player guesses the word increase wins by 1, show you win alert, give new word to guess
+  if (answerBlanks.indexOf("_") === -1) {
+    wins++;
+    gameFinished = true;
+    document.getElementById("user-message").innerHTML =
+      "You Win!! " + "Press any key to try again!";
+    // *** How do I get the alert to show after 0? ****
+    // alert("You win! Here's another word to guess!");
+  }
+}
+// Player loses
+function playerLoses() {
+  // if player runs of of guesses show you lose alert, give new word to guess, reset guesses and incorrect letters
+  if (guessesLeft === 0) {
+    gameFinished = true;
+    document.getElementById("user-message").innerHTML =
+      "The word was " + randomWord + "." + " Press any key to try again!";
+    // *** How do I get the alert to show after 0? ****
+    // alert("The word was " + randomWord + "." + " Try another word!");
+  }
 }
 
 startGame();
+resetScreen();
